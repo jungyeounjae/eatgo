@@ -16,7 +16,7 @@ public class RestaurantService {
     private RestaurantRepository restaurantRepository;
 
     @Autowired
-    private MenuItemRepository menuItemRepository;
+    private MenuItemRepository menuItemRepository; //
 
     public RestaurantService(RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository) {
         this.restaurantRepository = restaurantRepository;
