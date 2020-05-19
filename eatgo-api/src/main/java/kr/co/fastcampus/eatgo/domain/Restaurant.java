@@ -2,13 +2,24 @@ package kr.co.fastcampus.eatgo.domain;
 
 import org.springframework.core.convert.support.GenericConversionService;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Restaurant {
-    private String name;
-    private String address;
+    @Id
+    @GeneratedValue
     private Long id;
+
+    private String name;
+
+    private String address;
+
+    @Transient // 임시 처리하기 위한 annotation, DB 처리를 하지 않겠다는 의미
     private List<MenuItem> menuItems = new ArrayList<MenuItem>();
 
     public Restaurant() {
