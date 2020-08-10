@@ -7,6 +7,7 @@ import kr.co.fastcampus.eatgo.domain.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -16,7 +17,8 @@ public class RestaurantService {
     private RestaurantRepository restaurantRepository;
 
     @Autowired
-    private MenuItemRepository menuItemRepository; //
+    private MenuItemRepository menuItemRepository;
+
     public RestaurantService(RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository) {
         this.restaurantRepository = restaurantRepository;
         this.menuItemRepository = menuItemRepository;
@@ -39,5 +41,12 @@ public class RestaurantService {
 
     public Restaurant addRestaurant(Restaurant restaurant) {
         return restaurantRepository.save(restaurant);
+    }
+
+    @Transactional // 이 함수에서 일어난 엔티티 데이터 변경들이 함수가 끝나고 난 뒤 적용이 된다.
+    public Restaurant updateRestaurant(Long id, String name, String address) {
+        Restaurant restaurant = restaurantRepository.findById(id).orElse(null);
+        restaurant.updateInformation(name, address);
+        return restaurant;
     }
 }

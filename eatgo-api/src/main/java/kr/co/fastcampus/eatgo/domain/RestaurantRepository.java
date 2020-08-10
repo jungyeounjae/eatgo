@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface RestaurantRepository extends CrudRepository<Restaurant, Long> {
     List<Restaurant> findAll();
 
-    Optional<Restaurant> findById(Long id); // Null 을 처리 하지 않고 객체가 존재의 유무를 체
+    Optional<Restaurant> findById(Long id); // Null 을 처리 하지 않고 객체가 존재의 유무를 체크
 
     Restaurant save(Restaurant restaurant);
 }

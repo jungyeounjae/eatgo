@@ -14,6 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 public class RestaurantController {
 
@@ -21,7 +22,8 @@ public class RestaurantController {
 //    private RestaurantRepository restaurantRepository; // 컨트롤러를 생성할 때 스프링에서 스스로 객체를 생성해준다.
 //
 //    @Autowired
-//    private MenuItemRepository menuItemRepository; // 컨트롤러를 생성할 때 스프링에서 스스로 객체를 생성해준다.
+//    private MenuItemRepository menuht
+//    ItemRepository; // 컨트롤러를 생성할 때 스프링에서 스스로 객체를 생성해준다.
 
     @Autowired
     private RestaurantService restaurantService;
@@ -46,10 +48,24 @@ public class RestaurantController {
     public ResponseEntity<?> create(@RequestBody Restaurant resource) throws URISyntaxException {
         String name = resource.getName();
         String address = resource.getAddress();
-        Restaurant restaurant = new Restaurant(name, address);
-        restaurantService.addRestaurant(restaurant);
+        Restaurant restaurant =
+                restaurantService.addRestaurant(Restaurant.builder()
+                        .name(name)
+                        .address(address)
+                        .build());
 
         URI location = new URI("/restaurants/" + restaurant.getId());
         return ResponseEntity.created(location).body("{}");
     }
+
+    @PatchMapping("/restaurants/{id}")
+    public String update(@PathVariable("id") Long id,
+                         @RequestBody Restaurant resource) {
+        String name = resource.getName();
+        String address = resource.getAddress();
+        restaurantService.updateRestaurant(id, name, address);
+
+        return "{}";
+    }
+
 }

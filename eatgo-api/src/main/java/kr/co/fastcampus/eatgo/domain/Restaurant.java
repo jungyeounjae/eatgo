@@ -1,5 +1,6 @@
 package kr.co.fastcampus.eatgo.domain;
 
+import lombok.*;
 import org.springframework.core.convert.support.GenericConversionService;
 
 import javax.persistence.Entity;
@@ -10,63 +11,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Restaurant {
     @Id
     @GeneratedValue
+    @Setter
     private Long id;
 
+    // @Setter // 특정 속성에 롬북을 지정한 경우, 해당 속성은 해당 어노테이션 롬북 밖에 생성하지 않는다.
     private String name;
 
     private String address;
 
-    @Transient // 임시 처리하기 위한 annotation, DB 처리를 하지 않겠다는 의미
-    private List<MenuItem> menuItems = new ArrayList<MenuItem>();
-
-    public Restaurant() {
-    }
-
-    public Restaurant(String name, String address) {
-        this.name = name;
-        this.address = address;
-    }
-
-    public Restaurant(Long id, String name, String address) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-    }
-
-    public String getName() {
-        return name;
-    }
+    @Transient // 임시 처리를 하기 위한 annotation, 해당 멤버는 DB 처리를 하지 않겠다는 의미
+    private List<MenuItem> menuItems;
 
     public Object getInformation() {
         return name + " in "  + address;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public List<MenuItem> getMenuItems() {
-        return menuItems;
-    }
-
-    public void addMenuItem(MenuItem menuItem) {
-        menuItems.add(menuItem);
-    }
-
     public void setMenuItem(List<MenuItem> menuItems) {
-        for(MenuItem menuItem : menuItems) {
-            addMenuItem(menuItem);
-        }
+        this.menuItems = new ArrayList<>(menuItems);
+    }
+
+    public void updateInformation(String name, String address) {
+        this.name = name;
+        this.address = address;
     }
 }

@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
@@ -16,20 +17,23 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.framework;
+@SpringBootTest(
+
+)
 
 public class RestaurantServiceTest {
 
     private RestaurantService restaurantService;
 
-    @Mock // 해당 객체가 컨테이너에 존재해야 한다면 @Mock annotation을 사용한다.
+    @Mock // Spring Boot Container 의 Bean 이라면 MockBean, 그 이 외에는 Mock을 사
     private RestaurantRepository restaurantRepository;
 
-    @Mock
+    @Mock // 가짜 객체 생성, 테스트 대상의 객체가 아니이기 때문
     private MenuItemRepository menuItemRepository;
 
-    @Before
+    @Before // 테스트가 실행되기 전에 호출 되는 함
     public void setUp() {
-        MockitoAnnotations.initMocks(this); // @Mock객체의 초기화를 수행
+        MockitoAnnotations.initMocks(this); // @Mock 객체의 초기화 수행
 
         mockRestaurantRepository();
         mockMenuItemRepository();
@@ -39,13 +43,20 @@ public class RestaurantServiceTest {
 
     private void mockMenuItemRepository() {
         List<MenuItem> menuItems = new ArrayList<>();
-        menuItems.add(new MenuItem("Kimchi"));
+        menuItems.add(MenuItem.builder()
+                .name("Sushi")
+                .build());
         given(menuItemRepository.findAllByRestaurantById(1004L)).willReturn(menuItems);
     }
 
     private void mockRestaurantRepository() {
         List<Restaurant> restaurants = new ArrayList<>();
-        Restaurant restaurant = new Restaurant(1004L, "Bob zip","Seoul");
+        Restaurant restaurant = Restaurant.builder()
+                .id(1004L)
+                .name("Bob Zip")
+                .address("Seoul")
+                .build();
+
         restaurants.add(restaurant);
         given(restaurantRepository.findAll()).willReturn(restaurants);
         given(restaurantRepository.findById(1004L))
@@ -60,7 +71,7 @@ public class RestaurantServiceTest {
 
         MenuItem menuItem = restaurant.getMenuItems().get(0);
 
-        assertThat(menuItem.getName(), is("Kimchi"));
+        assertThat(menuItem.getName(), is("Sushi"));
 
     }
 
@@ -75,15 +86,44 @@ public class RestaurantServiceTest {
 
     @Test
     public void addRestaurant() {
-        Restaurant restaurant = new Restaurant("Beryong", "Busan");
-        Restaurant saved = new Restaurant(1234L,"Beryong", "Busan");
+
+        given(restaurantRepository.save(any())).will(invocation -> {
+            Restaurant restaurant = invocation.getArgument(0);
+            restaurant.setId(1234L);
+            return restaurant;
+        });
+
+        Restaurant restaurant = Restaurant.builder()
+                .name("Beryoung")
+                .address("Busan")
+                .build();
+
+        Restaurant saved = Restaurant.builder()
+                .id(1004L)
+                .name("Bob Zip")
+                .address("Seoul")
+                .build();
 
         Restaurant created = restaurantService.addRestaurant(restaurant);
-        given(restaurantRepository.save(any())).willReturn(restaurant);
 
-        // assertThat(created.getId(), is(1234L));
+
+        assertThat(created.getId(), is(1234L));
 
     }
 
+    @Test
+    public void updateRestaurant() {
+        Restaurant restaurant = Restaurant.builder()
+                .id(1004L)
+                .name("Bob Zip")
+                .address("Seoul")
+                .build();
 
+        given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
+
+        restaurantService.updateRestaurant(1004L, "Bob zip","Busan");
+
+        assertThat(restaurant.getAddress(), is("Busan"));
+
+    }
 }
