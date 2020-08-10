@@ -1,0 +1,25 @@
+{
+  "name": "eatgo-web",
+  "version": "1.0.0",
+  "description": "EatGo Web Project",
+  "main": "src/index.js",
+  "scripts": {
+    "start" : "webpack-dev-server --port 3000",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jungyeounjae/eatgo.git"
+  },
+  "author": "jungyeounjae",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jungyeounjae/eatgo/issues"
+  },
+  "homepage": "https://github.com/jungyeounjae/eatgo#readme",
+  "devDependencies": {
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
