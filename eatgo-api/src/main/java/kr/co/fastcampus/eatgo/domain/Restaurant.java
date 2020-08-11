@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,10 @@ public class Restaurant {
     private Long id;
 
     // @Setter // 특정 속성에 롬북을 지정한 경우, 해당 속성은 해당 어노테이션 롬북 밖에 생성하지 않는다.
+    @NotEmpty
     private String name;
 
+    @NotEmpty
     private String address;
 
     @Transient // 임시 처리를 하기 위한 annotation, 해당 멤버는 DB 처리를 하지 않겠다는 의미

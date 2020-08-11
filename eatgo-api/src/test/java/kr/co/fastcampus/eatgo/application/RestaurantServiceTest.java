@@ -63,8 +63,13 @@ public class RestaurantServiceTest {
                 .willReturn(Optional.of(restaurant));
     }
 
+    @Test(expected = RestaurantNotFoundException.class)
+    public void getRestaurantWithNotExisted() {
+        Restaurant restaurant = restaurantService.getRestaurant(4040L);
+    }
+
     @Test
-    public void getRestaurant() {
+    public void getRestaurantWithExisted() {
         Restaurant restaurant = restaurantService.getRestaurant(1004L);
 
         assertThat(restaurant.getId(), is(1004L));
@@ -72,7 +77,6 @@ public class RestaurantServiceTest {
         MenuItem menuItem = restaurant.getMenuItems().get(0);
 
         assertThat(menuItem.getName(), is("Sushi"));
-
     }
 
     @Test
@@ -83,6 +87,8 @@ public class RestaurantServiceTest {
 
         assertThat(restaurant.getId(), is(1004L));
     }
+
+
 
     @Test
     public void addRestaurant() {
