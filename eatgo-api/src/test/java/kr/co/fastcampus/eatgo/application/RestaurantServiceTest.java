@@ -46,7 +46,7 @@ public class RestaurantServiceTest {
         menuItems.add(MenuItem.builder()
                 .name("Sushi")
                 .build());
-        given(menuItemRepository.findAllByRestaurantById(1004L)).willReturn(menuItems);
+        given(menuItemRepository.findAllByRestaurantId(1004L)).willReturn(menuItems);
     }
 
     private void mockRestaurantRepository() {
@@ -63,7 +63,7 @@ public class RestaurantServiceTest {
                 .willReturn(Optional.of(restaurant));
     }
 
-    @Test(expected = RestaurantNotFoundException.class)
+    @Test
     public void getRestaurantWithNotExisted() {
         Restaurant restaurant = restaurantService.getRestaurant(4040L);
     }

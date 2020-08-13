@@ -6,5 +6,5 @@ import java.util.List;
 
 // CrudRepository jap 연동
 public interface MenuItemRepository extends CrudRepository<MenuItem, Long> {
-    List<MenuItem> findAllByRestaurantById(Long restaurantId);
+    List<MenuItem> findAllByRestaurantId(Long restaurantId);
 }

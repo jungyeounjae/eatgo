@@ -1,5 +1,6 @@
 package kr.co.fastcampus.eatgo.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import org.springframework.core.convert.support.GenericConversionService;
 
@@ -13,7 +14,6 @@ import java.util.List;
 
 @Entity
 @Getter
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -31,6 +31,7 @@ public class Restaurant {
     private String address;
 
     @Transient // 임시 처리를 하기 위한 annotation, 해당 멤버는 DB 처리를 하지 않겠다는 의미
+    @JsonInclude(JsonInclude.Include.NON_NULL) // Null의 경우에는 처리 하지 않겠다는 의
     private List<MenuItem> menuItems;
 
     public Object getInformation() {
