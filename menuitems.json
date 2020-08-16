@@ -1,8 +1,10 @@
 [
   {
-    "name": "kimchi"
+    "id": 5,
+    "name": "Guk"
   },
   {
-    "name": "gukbob"
+    "id": 8,
+    "destroy":true
   }
 ]
