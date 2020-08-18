@@ -70,36 +70,39 @@ public class RestaurantControllerTest {
     @Test
     public void detailWithExisted() throws Exception {
         // 데이터 준비를 한다
-        Restaurant restaurant1 = Restaurant.builder()
+        Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
                 .name("Joker House")
                 .address("Seoul")
                 .build();
-        Restaurant restaurant2 = Restaurant.builder()
-                .id(2020L)
-                .name("Cyber Food")
-                .build();
         MenuItem menuItem = MenuItem.builder()
                 .name("Kimchi")
                 .build();
-        restaurant1.setMenuItem(Arrays.asList(menuItem));
-        restaurant2.setMenuItem(Arrays.asList(menuItem));
+
+        restaurant.setMenuItem(Arrays.asList(menuItem));
+
+        Review review = Review.builder()
+                .name("JOKER")
+                .score(5)
+                .description("good taste")
+                .build();
+
+        restaurant.setReviews(Arrays.asList(review));
 
         // given 안의 내용이 실행 되면 restaurant1가 반환 된다
-        given(restaurantService.getRestaurant(1004L)).willReturn(restaurant1);
-        given(restaurantService.getRestaurant(2020L)).willReturn(restaurant2);
+        given(restaurantService.getRestaurant(1004L)).willReturn(restaurant);
 
+        //given()
+
+        // 위에서 입력한 데이터들이 올바르게 입력 되었는지 확인한다.
         mvc.perform(get("/restaurants/1004"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"id\":1004")))
                 .andExpect(content().string(containsString("\"name\":\"Joker House\"")))
                 .andExpect(content().string(containsString("\"address\":\"Seoul\"")))
-                .andExpect(content().string(containsString("Kimchi")));
+                .andExpect(content().string(containsString("Kimchi")))
+                .andExpect(content().string(containsString("good taste")));
 
-        mvc.perform(get("/restaurants/2020"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("\"id\":2020")))
-                .andExpect(content().string(containsString("\"name\":\"Cyber Food\"")));
     }
 
     @Test
