@@ -17,6 +17,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(
 
@@ -81,11 +84,11 @@ public class RestaurantServiceTest {
         given(reviewRepository.findAllByRestaurantId(1004L)).willReturn(reviews);
     }
 
-    @Test
-    public void getRestaurantWithNotExisted() {
-
-        Restaurant restaurant = restaurantService.getRestaurant(404L);
-    }
+//    @Test
+//    public void getRestaurantWithNotExisted() {
+//        given(restaurantService.getRestaurant(404L))
+//        .willThrow(new RestaurantNotFoundException(404L));
+//    }
 
     @Test
     public void getRestaurantWithExisted() {
