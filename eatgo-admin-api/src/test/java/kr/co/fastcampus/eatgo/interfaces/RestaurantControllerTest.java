@@ -8,21 +8,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -75,34 +69,15 @@ public class RestaurantControllerTest {
                 .name("Joker House")
                 .address("Seoul")
                 .build();
-        MenuItem menuItem = MenuItem.builder()
-                .name("Kimchi")
-                .build();
-
-        restaurant.setMenuItem(Arrays.asList(menuItem));
-
-        Review review = Review.builder()
-                .name("JOKER")
-                .score(5)
-                .description("good taste")
-                .build();
-
-        restaurant.setReviews(Arrays.asList(review));
 
         // given 안의 내용이 실행 되면 restaurant1가 반환 된다
         given(restaurantService.getRestaurant(1004L)).willReturn(restaurant);
-
-        //given()
 
         // 위에서 입력한 데이터들이 올바르게 입력 되었는지 확인한다.
         mvc.perform(get("/restaurants/1004"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"id\":1004")))
-                .andExpect(content().string(containsString("\"name\":\"Joker House\"")))
-                .andExpect(content().string(containsString("\"address\":\"Seoul\"")))
-                .andExpect(content().string(containsString("Kimchi")))
-                .andExpect(content().string(containsString("good taste")));
-
+                .andExpect(content().string(containsString("\"name\":\"Joker House\"")));
     }
 
     @Test

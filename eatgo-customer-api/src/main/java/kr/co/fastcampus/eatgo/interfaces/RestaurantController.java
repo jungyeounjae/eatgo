@@ -15,13 +15,6 @@ import java.util.List;
 @RestController
 public class RestaurantController {
 
-//    @Autowired // 의존성 주입
-//    private RestaurantRepository restaurantRepository; // 컨트롤러를 생성할 때 스프링에서 스스로 객체를 생성해준다.
-//
-//    @Autowired
-//    private MenuItemRepository menuht
-//    ItemRepository; // 컨트롤러를 생성할 때 스프링에서 스스로 객체를 생성해준다.
-
     @Autowired
     private RestaurantService restaurantService;
 

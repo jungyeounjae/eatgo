@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @RestController
 public class ReviewController {
@@ -17,15 +18,11 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    @PostMapping("/restaurants/{restaurantId}/reviews")
-    public ResponseEntity<?> create(@Valid @RequestBody Review resource,
-                                    @PathVariable("restaurantId") Long id ) throws URISyntaxException {
-        Review review = reviewService.addReview(id, resource) ;
+    @GetMapping("/reviews")
+    public List<Review> list() {
+        List<Review> reviews = reviewService.getReviews();
 
-        String url = "/restaurants/" +id + "/reviews/" + review.getId();
-
-        return ResponseEntity.created(new URI(url))
-                .body("{}");
-
+        return reviews;
     }
+
 }

@@ -14,12 +14,7 @@ import java.util.Optional;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(
 
@@ -32,31 +27,15 @@ public class RestaurantServiceTest {
     @Mock // Spring Boot Container 의 Bean 이라면 MockBean, 그 이 외에는 Mock을 사
     private RestaurantRepository restaurantRepository;
 
-    @Mock // 가짜 객체 생성, 테스트 대상의 객체가 아니이기 때문
-    private MenuItemRepository menuItemRepository;
-    @Mock
-    private ReviewRepository reviewRepository;
-
     @Before // 테스트가 실행되기 전에 호출 되는 함
     public void setUp() {
         MockitoAnnotations.initMocks(this); // @Mock 객체의 초기화 수행
 
         mockRestaurantRepository();
-        mockMenuItemRepository();
-        mockReviewRepository();
 
-        restaurantService = new RestaurantService(restaurantRepository, menuItemRepository, reviewRepository);
+        restaurantService = new RestaurantService(restaurantRepository);
     }
 
-    private void mockMenuItemRepository() {
-        List<MenuItem> menuItems = new ArrayList<>();
-
-        menuItems.add(MenuItem.builder()
-                .name("Sushi")
-                .build());
-
-        given(menuItemRepository.findAllByRestaurantId(1004L)).willReturn(menuItems);
-    }
 
     private void mockRestaurantRepository() {
         List<Restaurant> restaurants = new ArrayList<>();
@@ -73,44 +52,16 @@ public class RestaurantServiceTest {
                 .willReturn(Optional.of(restaurant));
     }
 
-    private void mockReviewRepository() {
-        List<Review> reviews = new ArrayList<>();
-        reviews.add(Review.builder()
-                .name("BeRyong")
-                .score(1)
-                .description("Bad")
-                .build());
-
-        given(reviewRepository.findAllByRestaurantId(1004L)).willReturn(reviews);
-    }
-
-//    @Test
-//    public void getRestaurantWithNotExisted() {
-//        given(restaurantService.getRestaurant(404L))
-//        .willThrow(new RestaurantNotFoundException(404L));
-//    }
-
     @Test
     public void getRestaurantWithExisted() {
         Restaurant restaurant = restaurantService.getRestaurant(1004L);
 
-        verify(menuItemRepository).findAllByRestaurantId(eq(1004L)); // 위의 코드에서 왼쪽과 같은 실행을 기대한다!
-        verify(reviewRepository).findAllByRestaurantId(eq(1004L));
-
         assertThat(restaurant.getId(), is(1004L));
-
-        MenuItem menuItem = restaurant.getMenuItems().get(0);
-        assertThat(menuItem.getName(), is("Sushi"));
-
-        Review review = restaurant.getReviews().get(0);
-        assertThat(review.getDescription(), is("Bad"));
-
     }
 
     @Test
     public void getRestaurants() {
         List<Restaurant> restaurants = restaurantService.getRestaurants();
-
 
         Restaurant restaurant = restaurants.get(0);
 
