@@ -36,13 +36,6 @@ public class RestaurantControllerTest {
     @MockBean  // 가짜 객체 생성, 테스트 대상인 컨트롤러는 서비스를 단지 활용만 할 뿐 서비스가 실제로 어떤 동작을 하는 지는 관심을 가지지 않는다.
     private RestaurantService restaurantService;
 
-//    @SpyBean(RestaurantRepositoryImpl.class)  // 컨트롤러에 원하는 객체를 주입 가능
-//    private RestaurantRepository restaurantRepository;
-//
-//    @SpyBean(MenuItemRepositoryImpl.class)  // 컨트롤러에 원하는 객체를 주입 가능
-//    private MenuItemRepository menuItemRepository;
-
-
     @Test
     public void list() throws Exception {
 
@@ -112,64 +105,4 @@ public class RestaurantControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("{}"));
     }
-
-    @Test
-    public void createWithValidData() throws Exception {
-        given(restaurantService.addRestaurant(any())).will(invocation -> {
-            Restaurant restaurant = invocation.getArgument(0);
-            return Restaurant.builder()
-                    .id(1234L)
-                    .name(restaurant.getName())
-                    .address(restaurant.getAddress())
-                    .build();
-        });
-        mvc.perform(post("/restaurants")
-                .contentType(MediaType.APPLICATION_JSON) // JSON type
-                .content("{\"name\":\"beryong\",\"address\":\"busan\"}"))
-                .andExpect(status().isCreated())
-                .andExpect(header().string("location","/restaurants/1234"))
-                .andExpect(content().string("{}"));
-
-        verify(restaurantService).addRestaurant(any()); // 해당 객체에 올바른 객체를 넣었 는지 validate
-
-    }
-
-    @Test
-    public void createWithInvalidData() throws Exception {
-        given(restaurantService.addRestaurant(any())).will(invocation -> {
-            Restaurant restaurant = invocation.getArgument(0);
-            return Restaurant.builder()
-                    .id(1234L)
-                    .name(restaurant.getName())
-                    .address(restaurant.getAddress())
-                    .build();
-        });
-
-        mvc.perform(post("/restaurants")
-                .contentType(MediaType.APPLICATION_JSON) // JSON type
-                .content("{\"name\":\"\",\"address\":\"\"}"))
-                .andExpect(status().isBadRequest());
-
-    }
-
-    @Test
-    public void updateWithValidData() throws Exception {
-        mvc.perform(patch("/restaurants/1004")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"JOKER Bar\",\"address\":\"Busan\"}"))
-                .andExpect(status().isOk());
-
-        verify(restaurantService).updateRestaurant(1004L, "JOKER Bar", "Busan");
-        // restaurantService.updateRestaurant(~)가 호출 되었는지 validate check
-    }
-
-    @Test
-    public void updateWithInvalidData() throws Exception {
-        mvc.perform(patch("/restaurants/1004")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"\",\"address\":\"\"}"))
-                .andExpect(status().isBadRequest());
-
-    }
-
 }

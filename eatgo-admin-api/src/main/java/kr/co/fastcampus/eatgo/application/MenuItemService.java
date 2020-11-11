@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class MenuItemService {
 
-    @Autowired // 주입관계
+    @Autowired // 주입
     private MenuItemRepository menuItemRepository;
 
     public MenuItemService(MenuItemRepository menuItemRepository) {

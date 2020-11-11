@@ -27,7 +27,6 @@ public class MenuItemServiceTest {
        서비스는 레포지토리와 의존 관계를 맺고 있다.
        레포지토리에서는 DB와 관계를 맺고 있지만 여기에서의 테스트는 DB상태나 관계까지 고려할 필요가 없다.
        따라서 우리는 목 객체라는 임의의 객체를 생성해 DB연동 까지 생각하지 않아도 된다.
-
      */
     @Mock
     private MenuItemRepository menuItemRepository;
@@ -35,7 +34,6 @@ public class MenuItemServiceTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this );
-
         menuItemService = new MenuItemService(menuItemRepository);
     }
 
@@ -50,7 +48,6 @@ public class MenuItemServiceTest {
         MenuItem menuItem = menuItems.get(0);
 
         assertThat(menuItem.getName(),is("Kimchi"));
-
     }
 
     @Test
