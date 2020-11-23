@@ -6,8 +6,7 @@ spring:
     hibernate:
       ddl-auto: update
 
-#設定により、作業に従って設定を指定することができる。
-#下の場合は、テストをする場合の設定を指定。
+
 ---
 
 spring:
