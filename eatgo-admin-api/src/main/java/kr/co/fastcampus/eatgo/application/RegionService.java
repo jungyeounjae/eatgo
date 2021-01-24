@@ -22,4 +22,8 @@ public class RegionService {
 
         return regions;
     }
+
+    public Region addRegion(String name) {
+        return null;
+    }
 }

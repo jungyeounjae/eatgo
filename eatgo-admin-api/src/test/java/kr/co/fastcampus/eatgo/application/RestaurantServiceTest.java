@@ -68,8 +68,6 @@ public class RestaurantServiceTest {
         assertThat(restaurant.getId(), is(1004L));
     }
 
-
-
     @Test
     public void addRestaurant() {
 
