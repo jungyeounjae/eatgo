@@ -10,5 +10,8 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Long> {
 
     Optional<Restaurant> findById(Long id); // Null 을 처리 하지 않고 객체가 존재의 유무를 체크
 
+    List<Restaurant> findAllByAddressContaining(String region);
+
     Restaurant save(Restaurant restaurant);
+
 }
