@@ -49,7 +49,8 @@ public class RestaurantService {
                 .name("JOKER House")
                 .address("Seoul")
                 .build());
-        return rest;
+
+        return restaurants;
     }
 
     public List<Restaurant> getAllRestaurants() {
