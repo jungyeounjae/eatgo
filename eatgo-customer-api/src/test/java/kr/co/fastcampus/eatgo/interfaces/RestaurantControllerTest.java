@@ -42,17 +42,18 @@ public class RestaurantControllerTest {
         List<Restaurant> restaurants = new ArrayList<>();
         restaurants.add(Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("JOKER House")
-                .address("Busan")
+                .address("Seoul")
                 .build());
 
         // given 안의 함수가 호출이 된다면, willReturn()안의 갹체가 리턴이 된다.
         // given 안의 할수를 실제로 호출 한다는 의미가 아님!
         // 따라서, 실제 함수를 호출 하지 않기 때문에 willReturn()안의 객체는 가짜 객체!
-        given(restaurantService.getRestaurants("Seoul"))
+        given(restaurantService.getRestaurants("Seoul",1L))
                 .willReturn(restaurants);
 
-        mvc.perform(get("/restaurants?region=Seoul"))
+        mvc.perform(get("/restaurants?region=Seoul&category=1"))
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("\"id\":1004")))
             .andExpect(content().string(containsString("\"name\":\"JOKER House\"")))

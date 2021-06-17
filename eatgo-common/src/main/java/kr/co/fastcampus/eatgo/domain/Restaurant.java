@@ -28,6 +28,9 @@ public class Restaurant {
     private String name;
 
     @NotEmpty
+    private Long categoryId;
+
+    @NotEmpty
     private String address;
 
     @Transient // 임시 처리를 하기 위한 annotation, 해당 멤버는 DB 처리를 하지 않겠다는 의미

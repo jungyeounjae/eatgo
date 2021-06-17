@@ -19,11 +19,11 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/Categories")
+    @GetMapping("/categories")
     public List<Category> list() {
         List<Category> Categories = categoryService.getCategories();
 
-        Categories.add(Category.builder().name("Seoul").build());
+        // Categories.add(Category.builder().name("Seoul").build());
 
         return Categories;
     }

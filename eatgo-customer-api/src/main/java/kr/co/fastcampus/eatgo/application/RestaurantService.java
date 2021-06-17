@@ -39,7 +39,7 @@ public class RestaurantService {
         return restaurant;
     }
 
-    public List<Restaurant> getRestaurants(String region) {
+    public List<Restaurant> getRestaurants(String region, long categoryId) {
         List<Restaurant> restaurants
                 = restaurantRepository.findAllByAddressContaining(region);
 

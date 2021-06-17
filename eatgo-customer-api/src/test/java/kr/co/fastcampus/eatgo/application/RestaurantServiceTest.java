@@ -59,13 +59,14 @@ public class RestaurantServiceTest {
         List<Restaurant> restaurants = new ArrayList<>();
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("Bob Zip")
                 .address("Seoul")
                 .build();
 
         restaurants.add(restaurant);
         // 정의!
-        given(restaurantRepository.findAllByAddressContaining("Seoul")).willReturn(restaurants);
+        given(restaurantRepository.findAllByAddressContainingByCategoryId("Seoul",1L)).willReturn(restaurants);
         given(restaurantRepository.findById(1004L))
                 .willReturn(Optional.of(restaurant));
     }
@@ -107,7 +108,7 @@ public class RestaurantServiceTest {
     @Test
     public void getRestaurants() {
         String region = "Seoul";
-        List<Restaurant> restaurants = restaurantService.getRestaurants(region);
+        List<Restaurant> restaurants = restaurantService.getRestaurants(region, 1L);
 
         Restaurant restaurant = restaurants.get(0);
 
