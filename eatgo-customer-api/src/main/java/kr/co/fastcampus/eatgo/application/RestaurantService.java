@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,14 +40,15 @@ public class RestaurantService {
 
     public List<Restaurant> getRestaurants(String region, long categoryId) {
         List<Restaurant> restaurants
-                = restaurantRepository.findAllByAddressContaining(region);
+                = restaurantRepository.findAllByAddressContainingAndCategoryId(
+                        region, categoryId);
 
-        ArrayList<Restaurant> rest = new ArrayList();
-        rest.add(Restaurant.builder()
-                .id(1004L)
-                .name("JOKER House")
-                .address("Seoul")
-                .build());
+//        ArrayList<Restaurant> rest = new ArrayList();
+//        rest.add(Restaurant.builder()
+//                .id(1004L)
+//                .name("JOKER House")
+//                .address("Seoul")
+//                .build());
 
         return restaurants;
     }
