@@ -2,7 +2,6 @@ package kr.co.fastcampus.eatgo.interfaces;
 
 import kr.co.fastcampus.eatgo.application.CategoryService;
 import kr.co.fastcampus.eatgo.domain.Category;
-import kr.co.fastcampus.eatgo.domain.MenuItem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

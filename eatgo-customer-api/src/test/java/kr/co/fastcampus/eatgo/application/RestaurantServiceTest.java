@@ -26,11 +26,12 @@ public class RestaurantServiceTest {
 
     private RestaurantService restaurantService;
 
-    @Mock // Spring Boot Container 의 Bean 이라면 MockBean, 그 이 외에는 Mock을 사
+    @Mock // Spring Boot Container 의 Bean 이라면 MockBean, 그 이 외에는 Mock을 사용
     private RestaurantRepository restaurantRepository;
 
-    @Mock // 가짜 객체 생성, 테스트 대상의 객체가 아니이기 때문
+    @Mock // 가짜 객체 생성, 테스트 대상의 객체가 아니기 때문
     private MenuItemRepository menuItemRepository;
+
     @Mock
     private ReviewRepository reviewRepository;
 
@@ -57,6 +58,7 @@ public class RestaurantServiceTest {
 
     private void mockRestaurantRepository() {
         List<Restaurant> restaurants = new ArrayList<>();
+
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
                 .categoryId(1L)
@@ -83,12 +85,6 @@ public class RestaurantServiceTest {
 
         given(reviewRepository.findAllByRestaurantId(1004L)).willReturn(reviews);
     }
-
-//    @Test
-//    public void getRestaurantWithNotExisted() {
-//        given(restaurantService.getRestaurant(404L))
-//        .willThrow(new RestaurantNotFoundException(404L));
-//    }
 
     @Test
     public void getRestaurantWithExisted() {
