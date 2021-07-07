@@ -19,7 +19,6 @@ public class RegionService {
 
     public List<Region> getRegions() {
         List<Region> regions = regionRepository.findAll();
-
         return regions;
     }
 
