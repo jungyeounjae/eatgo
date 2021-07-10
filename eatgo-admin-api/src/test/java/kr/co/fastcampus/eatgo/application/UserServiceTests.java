@@ -1,11 +1,11 @@
 package kr.co.fastcampus.eatgo.application;
 
-import kr.co.fastcampus.eatgo.domain.CategoryRepository;
 import kr.co.fastcampus.eatgo.domain.User;
-import net.bytebuddy.build.ToStringPlugin;
+import kr.co.fastcampus.eatgo.domain.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,8 @@ public class UserServiceTests {
 
     @Before
     public void setUp() {
-        userService = new UserService();
+        MockitoAnnotations.initMocks(this);
+        userService = new UserService(userRepository);
     }
 
     @Test
