@@ -26,4 +26,8 @@ public class UserService {
 
         return users;
     }
+
+    public User addUser(String email, String name) {
+        return null;
+    }
 }

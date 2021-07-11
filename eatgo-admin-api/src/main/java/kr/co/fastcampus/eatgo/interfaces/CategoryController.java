@@ -36,7 +36,7 @@ public class CategoryController {
 
         Category Category = categoryService.addCategory(name + 1);
 
-        String url = "/Categorys/" + Category.getId();
+        String url = "/Categories/" + Category.getId();
         return ResponseEntity.created(new URI(url)).body("{1}");
     }
 }
