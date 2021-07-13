@@ -28,6 +28,15 @@ public class UserService {
     }
 
     public User addUser(String email, String name) {
+        User user = User.builder()
+                .email(email)
+                .name(name)
+                .build();
+
+        return userRepository.save(user);
+    }
+
+    public User updateUser(Long id, String email, String name, Long level) {
         return null;
     }
 }

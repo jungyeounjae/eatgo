@@ -5,10 +5,7 @@ import kr.co.fastcampus.eatgo.application.UserService;
 import kr.co.fastcampus.eatgo.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -39,5 +36,18 @@ public class UserController {
         String url = "/users/" + user.getId();
 
         return ResponseEntity.created(new URI(url)).body("{}");
+    }
+
+    @PatchMapping("/users/{userId}")
+    public String update(
+            @PathVariable("userId") Long userId,
+            @RequestBody User resource
+    ) {
+        String email = resource.getEmail();
+        String name = resource.getName();
+        Long level = resource.getLevel();
+
+        userService.updateUser(userId, email, name, level);
+        return "{}";
     }
 }
