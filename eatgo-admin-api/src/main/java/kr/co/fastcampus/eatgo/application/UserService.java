@@ -2,9 +2,11 @@ package kr.co.fastcampus.eatgo.application;
 
 import kr.co.fastcampus.eatgo.domain.User;
 import kr.co.fastcampus.eatgo.domain.UserRepository;
+import org.graalvm.compiler.lir.LIRInstruction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 public class UserService {
 
@@ -37,6 +39,12 @@ public class UserService {
     }
 
     public User updateUser(Long id, String email, String name, Long level) {
-        return null;
+        User user = UserRepository.findById(id).orElse(null);
+
+        user.setName(name);
+        user.setEmail(email);
+        user.setLevel(level);
+
+        return user;
     }
 }

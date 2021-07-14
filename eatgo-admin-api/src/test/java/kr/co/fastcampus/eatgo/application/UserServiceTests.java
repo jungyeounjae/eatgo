@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -55,11 +56,21 @@ public class UserServiceTests {
         Long id = 1004L;
         Long level = 100L;
 
+        User mockUsers = User.builder()
+                .email(email)
+                .name("Administrator")
+                .level(1L)
+                .build();
+
+        // userRepository.findByIdが呼び出されるとwillReturnが返却される。
+        given(userRepository.findById(id)).willReturn(Optional.of(mockUsers));
+        // updateUser()でfindById()が呼出される。
         User user = userService.updateUser(id, email, name, level);
 
         verify(userRepository).findById(eq(id));
 
         assertThat(user.getName(), is("SubAdministrator"));
+        assertThat(user.isAdmin(), is(true));
     }
     @Test
     public void addUser() {

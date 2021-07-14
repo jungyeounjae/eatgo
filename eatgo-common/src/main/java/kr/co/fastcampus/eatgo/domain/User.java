@@ -1,9 +1,6 @@
 package kr.co.fastcampus.eatgo.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,13 +19,16 @@ public class User {
     @GeneratedValue
     private Long id;
 
+    @Setter
     @NotEmpty
     private String email;
 
     @NotEmpty
+    @Setter
     private String name;
 
     @NotNull
+    @Setter
     private Long level;
 
     public boolean isAdmin() {
