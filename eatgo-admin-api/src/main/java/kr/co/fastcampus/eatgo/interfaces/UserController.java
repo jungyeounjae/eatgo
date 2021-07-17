@@ -11,7 +11,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-
+@RestController
 public class UserController {
 
     @Autowired
@@ -48,6 +48,13 @@ public class UserController {
         Long level = resource.getLevel();
 
         userService.updateUser(userId, email, name, level);
+        return "{}";
+    }
+
+    @DeleteMapping("/users/{id}")
+    public String delete(@PathVariable("id") Long id) {
+        userService.deactivate(id);
+
         return "{}";
     }
 }

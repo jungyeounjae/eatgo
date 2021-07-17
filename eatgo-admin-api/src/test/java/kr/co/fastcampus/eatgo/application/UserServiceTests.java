@@ -89,4 +89,25 @@ public class UserServiceTests {
         assertThat(user.getName(), is(name));
     }
 
+    @Test
+    public void deactiveUser() {
+        String email = "duswp220@gmail.com";
+        String name = "Administrator";
+        Long id = 1004L;
+        Long level = 100L;
+
+        User mockUsers = User.builder()
+                .id(id)
+                .email(email)
+                .name(name)
+                .level(level)
+                .build();
+
+        // userRepository.findByIdが呼び出されるとwillReturnが返却される想定。
+         given(userRepository.findById(id)).willReturn(Optional.of(mockUsers));
+
+        userService.deactivate(1004L);
+
+        verify(userRepository).findById(1004L);
+    }
 }
