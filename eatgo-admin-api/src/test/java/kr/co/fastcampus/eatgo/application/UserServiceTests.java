@@ -104,10 +104,13 @@ public class UserServiceTests {
                 .build();
 
         // userRepository.findByIdが呼び出されるとwillReturnが返却される想定。
-         given(userRepository.findById(id)).willReturn(Optional.of(mockUsers));
+        given(userRepository.findById(id)).willReturn(Optional.of(mockUsers));
 
-        userService.deactivate(1004L);
+        User user = userService.deactivate(1004L);
 
         verify(userRepository).findById(1004L);
+
+        assertThat(user.isAdmin(), is(false));
+        assertThat(user.isActive(), is(false));
     }
 }

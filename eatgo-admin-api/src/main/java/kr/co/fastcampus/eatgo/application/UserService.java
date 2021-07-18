@@ -32,6 +32,7 @@ public class UserService {
     public User addUser(String email, String name) {
         User user = User.builder()
                 .email(email)
+                .level(1L)
                 .name(name)
                 .build();
 
@@ -47,7 +48,12 @@ public class UserService {
 
         return user;
     }
-
-    public void deactivate(Long id) {
+    /*
+        Userを非活性化する。
+     */
+    public User deactivate(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        user.deactivate();
+        return user;
     }
 }
