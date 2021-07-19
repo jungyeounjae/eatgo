@@ -1,7 +1,7 @@
 #h2 do permanent
 spring:
   datasource:
-    url: jdbc:h2:~/data/eatgo
+    url: jdbc:h2:~/data/eatgo;AUTO_SERVER=true
   jpa:
     hibernate:
       ddl-auto: update
