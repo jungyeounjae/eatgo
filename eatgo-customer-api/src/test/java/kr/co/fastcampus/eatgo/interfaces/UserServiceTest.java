@@ -1,8 +1,10 @@
 package kr.co.fastcampus.eatgo.interfaces;
 
 import kr.co.fastcampus.eatgo.domain.UserRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -14,6 +16,13 @@ public class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this); // mock initialize
+
+        userService = new UserService(userRepository);
+    }
 
     @Test
     public void registerUser() {
