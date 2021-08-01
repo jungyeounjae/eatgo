@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import sun.security.util.Password;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,7 +23,10 @@ public class UserService {
     }
 
     public User registerUser(String email, String name, String password) {
-
+        Optional<User> existed = userRepository.findByEmail(email);
+        if (existed.isPresent()) {
+            throw new EmailExistedException(email);
+        }
         // password encode
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(password);
