@@ -1,12 +1,12 @@
-package kr.co.fastcampus.eatgo.interfaces;
+package kr.co.fastcampus.eatgo.application;
 
+import kr.co.fastcampus.eatgo.application.UserService;
 import kr.co.fastcampus.eatgo.domain.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
@@ -33,6 +33,11 @@ public class UserServiceTest {
         userService.registerUser(email, name, password);
 
         verify(userRepository).save(any());
+    }
+
+    @Test
+    public void registerUserWithExistedEmail() {
+
     }
 
 }
