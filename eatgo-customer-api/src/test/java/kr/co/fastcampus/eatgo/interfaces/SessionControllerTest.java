@@ -1,7 +1,8 @@
 package kr.co.fastcampus.eatgo.interfaces;
 
-import jdk.javadoc.internal.doclets.toolkit.taglets.UserTaglet;
+import kr.co.fastcampus.eatgo.application.EmailNotExistedException;
 import kr.co.fastcampus.eatgo.application.UserService;
+import kr.co.fastcampus.eatgo.application.PasswordWrongException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -27,8 +29,20 @@ public class SessionControllerTest {
     private UserService userService;
 
     @Test
-    public void create() throws Exception {
+    public void createWithNotExistedEmail() throws Exception {
+        given(userService.authenticate("x@gmail.com","test"))
+                .willThrow(EmailNotExistedException.class);
 
+        mvc.perform(post("/session")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"x@gmail.com\",\"password\":\"test\"}"))
+                .andExpect(status().isBadRequest());
+
+        verify(userService).authenticate(eq("x@gmail.com"), eq("test"));
+    }
+
+    @Test
+    public void createWithValidAttributes() throws Exception {
         mvc.perform(post("/session")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"email\":\"duswp220@gmail.com\",\"password\":\"test\"}"))
@@ -37,6 +51,20 @@ public class SessionControllerTest {
                 .andExpect(content().string("{\"accessToken\":\"ACCESSTOKEN\"}"));
 
         verify(userService).authenticate(eq("duswp220@gmail.com"), eq("test"));
+
+    }
+
+    @Test
+    public void createWithWrongPassword() throws Exception {
+        given(userService.authenticate("duswp220@gmail.com","x"))
+                .willThrow(PasswordWrongException.class);
+
+        mvc.perform(post("/session")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"duswp220@gmail.com\",\"password\":\"x\"}"))
+                .andExpect(status().isBadRequest());
+
+        verify(userService).authenticate(eq("duswp220@gmail.com"), eq("x"));
 
     }
 }
