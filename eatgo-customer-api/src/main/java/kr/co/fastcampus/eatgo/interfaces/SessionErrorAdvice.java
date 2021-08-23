@@ -15,8 +15,8 @@ public class SessionErrorAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(EmailNotExistedException.class)
-    public String handleEmailNotExisted() {
-        return "{}}";
+    public String handleEmailNotExisted(RuntimeException rt) {
+        return rt.getMessage() + "のパスワードが間違ってません。";
     }
 
     @ResponseBody

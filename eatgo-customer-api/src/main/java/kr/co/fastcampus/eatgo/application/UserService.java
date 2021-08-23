@@ -53,7 +53,7 @@ public class UserService {
         // password : row password
         // user.getPassword() : encoded password
         if(!passwordEncoder.matches(password, user.getPassword())) {
-            throw new PasswordWrongException();
+            throw new PasswordWrongException(email);
         }
         return user;
     }

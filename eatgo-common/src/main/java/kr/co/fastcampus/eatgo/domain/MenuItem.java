@@ -13,7 +13,7 @@ import javax.persistence.Transient;
 @Setter
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor //
 public class MenuItem {
 
     @Id
