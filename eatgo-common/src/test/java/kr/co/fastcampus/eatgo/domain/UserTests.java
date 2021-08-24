@@ -1,6 +1,7 @@
 package kr.co.fastcampus.eatgo.domain;
 
 import org.junit.Test;
+import org.springframework.context.annotation.EnableLoadTimeWeaving;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
@@ -23,6 +24,13 @@ public class UserTests {
         user.deactivate();
         assertThat(user.isActive(), is(false));
 
+    }
+
+    @Test
+    public void accessToken() {
+        User user = User.builder().password("ACCESSTOKEN").build();
+
+        assertThat(user.getAccessToken(), is("ACCESSTOKE"));
     }
 
 }

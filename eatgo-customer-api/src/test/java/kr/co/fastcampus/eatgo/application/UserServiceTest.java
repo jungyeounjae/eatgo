@@ -106,7 +106,7 @@ public class UserServiceTest {
         given(userRepository.findByEmail(email)).
                 willReturn(Optional.empty());
 
-        given(passwordEncoder.matches(any(), any())).willReturn(true);
+        given(passwordEncoder.matches(any(), any())).willReturn(false);
 
         userService.authenticate(email, password);
     }

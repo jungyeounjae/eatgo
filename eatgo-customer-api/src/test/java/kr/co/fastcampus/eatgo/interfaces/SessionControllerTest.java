@@ -47,15 +47,15 @@ public class SessionControllerTest {
         User mockUser = User.builder().password("ACCESSTOKEN").build();
 
         given(userService.authenticate("duswp220@gmail.com","test")).willReturn(mockUser);
+
         mvc.perform(post("/session")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"email\":\"duswp220@gmail.com\",\"password\":\"test\"}"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"duswp220@gmail.com\",\"password\":\"test\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location","/session"))
-                .andExpect(content().string("{\"accessToken\":\"ACCESSTOKEN\"}"));
+                .andExpect(content().string("{\"accessToken\":\"ACCESSTOKE\"}"));
 
         verify(userService).authenticate(eq("duswp220@gmail.com"), eq("test"));
-
     }
 
     @Test

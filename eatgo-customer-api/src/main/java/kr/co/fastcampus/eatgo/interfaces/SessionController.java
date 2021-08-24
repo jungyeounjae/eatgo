@@ -23,12 +23,12 @@ public class SessionController {
             @RequestBody SessionRequestDto resource
     ) throws URISyntaxException {
 
-        String accessToken = "ACCESSTOKEN";
-
         String email = resource.getEmail();
         String password = resource.getPassword();
 
-        userService.authenticate(email, password);
+        User user = userService.authenticate(email, password);
+
+        String accessToken = user.getAccessToken();
 
         SessionDto sessionResponseDto = SessionDto.builder()
                 .accessToken(accessToken)
