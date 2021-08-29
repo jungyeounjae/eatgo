@@ -48,7 +48,7 @@ public class User {
     }
 
     /*
-        jsonignore : 빈 클래스를 json객체로 만들 때 스킵하고 싶은 필드에 선
+        jsonignore : 빈 클래스를 json객체로 만들 때 스킵하고 싶은 필드에 선언
      */
     @JsonIgnore
     public String getAccessToken() {

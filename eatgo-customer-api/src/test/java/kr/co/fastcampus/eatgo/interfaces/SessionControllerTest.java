@@ -4,6 +4,7 @@ import kr.co.fastcampus.eatgo.application.EmailNotExistedException;
 import kr.co.fastcampus.eatgo.application.UserService;
 import kr.co.fastcampus.eatgo.application.PasswordWrongException;
 import kr.co.fastcampus.eatgo.domain.User;
+import kr.co.fastcampus.eatgo.utils.JwtUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.core.StringContains.containsString;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -44,7 +47,10 @@ public class SessionControllerTest {
 
     @Test
     public void createWithValidAttributes() throws Exception {
-        User mockUser = User.builder().password("ACCESSTOKEN").build();
+        Long id = 1004L;
+        String name = "Tester";
+
+        User mockUser = User.builder().id(id).name(name).build();
 
         given(userService.authenticate("duswp220@gmail.com","test")).willReturn(mockUser);
 
@@ -53,7 +59,8 @@ public class SessionControllerTest {
                 .content("{\"email\":\"duswp220@gmail.com\",\"password\":\"test\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location","/session"))
-                .andExpect(content().string("{\"accessToken\":\"ACCESSTOKE\"}"));
+                .andExpect(content().string(containsString("{\"accessToken\":\"")))
+                .andExpect(content().string(containsString(".")));
 
         verify(userService).authenticate(eq("duswp220@gmail.com"), eq("test"));
     }
