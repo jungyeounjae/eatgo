@@ -17,7 +17,7 @@ public class UserTests {
                 .build();
 
         assertThat(user.getName(), is("Tester"));
-        assertThat(user.isAdmin(), is(true));
+        assertThat(user.isAdmin(), is(false));
         assertThat(user.isActive(), is(true));
 
 
@@ -25,12 +25,4 @@ public class UserTests {
         assertThat(user.isActive(), is(false));
 
     }
-
-    @Test
-    public void accessToken() {
-        User user = User.builder().password("ACCESSTOKEN").build();
-
-        assertThat(user.getAccessToken(), is("ACCESSTOKE"));
-    }
-
 }

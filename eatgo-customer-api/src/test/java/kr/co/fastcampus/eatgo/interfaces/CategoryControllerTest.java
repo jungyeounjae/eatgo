@@ -40,8 +40,8 @@ public class CategoryControllerTest {
         // It is not related to Real Source!!
         given(CategoryService.getCategories()).willReturn(Categories);
 
-        mvc.perform(get("/Categories"))
+        mvc.perform(get("/categories"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Seoul")));
+                .andExpect(content().string(containsString("Korean Food")));
     }
 }

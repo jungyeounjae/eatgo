@@ -33,7 +33,7 @@ public class SessionController {
 
         User user = userService.authenticate(email, password);
 
-        String accessToken = user.getAccessToken();
+        String accessToken = jwtUtil.createToken(user.getId(), user.getName());
 
         SessionDto sessionResponseDto = SessionDto.builder()
                 .accessToken(accessToken)
@@ -41,6 +41,8 @@ public class SessionController {
 
         String url = "/session";
         return ResponseEntity.created(new URI(url))
-                .body(sessionResponseDto);
+                .body(sessionResponseDto.builder()
+                .accessToken(accessToken)
+                .build());
     }
 }

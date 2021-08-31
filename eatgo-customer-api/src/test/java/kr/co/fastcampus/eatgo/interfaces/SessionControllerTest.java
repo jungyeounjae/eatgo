@@ -8,6 +8,7 @@ import kr.co.fastcampus.eatgo.utils.JwtUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -28,6 +29,9 @@ public class SessionControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @MockBean
+    private JwtUtil jwtUtil;
 
     @MockBean
     private UserService userService;
@@ -54,13 +58,16 @@ public class SessionControllerTest {
 
         given(userService.authenticate("duswp220@gmail.com","test")).willReturn(mockUser);
 
+        given(jwtUtil.createToken(id, name)).willReturn("header.payload.signature");
+
         mvc.perform(post("/session")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"duswp220@gmail.com\",\"password\":\"test\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location","/session"))
-                .andExpect(content().string(containsString("{\"accessToken\":\"")))
-                .andExpect(content().string(containsString(".")));
+                .andExpect(content().string(
+                        containsString("{\"accessToken\":\"header.payload.signature")
+                ));
 
         verify(userService).authenticate(eq("duswp220@gmail.com"), eq("test"));
     }

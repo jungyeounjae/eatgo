@@ -34,7 +34,7 @@ public class CategoryController {
     ) throws URISyntaxException {
         String name = resource.getName();
 
-        Category Category = categoryService.addCategory(name + 1);
+        Category Category = categoryService.addCategory(name);
 
         String url = "/Categories/" + Category.getId();
         return ResponseEntity.created(new URI(url)).body("{1}");
