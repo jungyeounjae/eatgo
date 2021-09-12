@@ -27,7 +27,6 @@ public class SessionController {
     public ResponseEntity<SessionDto> create(
             @RequestBody SessionRequestDto resource
     ) throws URISyntaxException {
-
         String email = resource.getEmail();
         String password = resource.getPassword();
 
@@ -40,8 +39,8 @@ public class SessionController {
                 .build();
 
         String url = "/session";
-        return ResponseEntity.created(new URI(url))
-                .body(sessionResponseDto.builder()
+        return ResponseEntity.created(new URI(url)).body(
+                sessionResponseDto.builder()
                 .accessToken(accessToken)
                 .build());
     }

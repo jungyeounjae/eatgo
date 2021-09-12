@@ -9,7 +9,8 @@ public class JwtUtilTest {
 
     @Test
     public void createToken() {
-        JwtUtil jwtUtil = new JwtUtil();
+        String secret = "123456789012345678901234567890123";
+        JwtUtil jwtUtil = new JwtUtil(secret);
 
         String token = jwtUtil.createToken(1004L, "John");
 

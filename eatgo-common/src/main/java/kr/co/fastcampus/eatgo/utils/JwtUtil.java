@@ -10,10 +10,13 @@ import javax.crypto.SecretKey;
 import java.security.Key;
 
 public class JwtUtil {
-    public String createToken(long userId, String name) {
-        String secret = "123456789012345678901234567890123";
-        Key key = Keys.hmacShaKeyFor(secret.getBytes()); //signのキーは256以上である必要がある
+    private Key key;
 
+    public JwtUtil(String secret) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes()); //signのキーは256byte以上である必要がある
+    }
+
+    public String createToken(long userId, String name) {
         String token = Jwts.builder()
                 .claim("userId",1004L) // claim : 実際に使うデータ、payloadに入っているデータ
                 .claim("name", name)
