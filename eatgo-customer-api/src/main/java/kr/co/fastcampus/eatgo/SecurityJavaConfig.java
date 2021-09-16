@@ -32,7 +32,7 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin().disable()
                 .headers().frameOptions().disable()
-                .and()
+                .and()//initial
                 .addFilter(filter)
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 세션에 대해 관리 하지 않는다. (필터를 사용 한다는 의미)

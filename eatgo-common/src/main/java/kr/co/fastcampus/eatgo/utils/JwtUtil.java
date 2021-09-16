@@ -1,5 +1,6 @@
 package kr.co.fastcampus.eatgo.utils;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -10,6 +11,7 @@ import javax.crypto.SecretKey;
 import java.security.Key;
 
 public class JwtUtil {
+
     private Key key;
 
     public JwtUtil(String secret) {
@@ -17,12 +19,22 @@ public class JwtUtil {
     }
 
     public String createToken(long userId, String name) {
+        // jwt token 생
         String token = Jwts.builder()
-                .claim("userId",1004L) // claim : 実際に使うデータ、payloadに入っているデータ
+                .claim("userId",userId) // claim : 実際に使うデータ、payloadに入っているデータ
                 .claim("name", name)
                 .signWith(key, SignatureAlgorithm.HS256) //データが偽造されていないのを証明する
                 .compact();
 
         return token;
+    }
+
+    public Claims getClaims(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(key)  //인코딩된 header 와 payload 를 합쳐 header 의 서명 알고리즘 정보를 가져와 암호화하여 생성한다
+                .parseClaimsJws(token)  //사인이 포함된 jwt
+                .getBody();
+
+        return claims;
     }
 }
