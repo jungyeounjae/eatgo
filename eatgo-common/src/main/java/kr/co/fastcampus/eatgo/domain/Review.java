@@ -21,8 +21,7 @@ public class Review {
     @GeneratedValue
     @Getter
     private Long id;
-
-    @NotEmpty
+    
     private String name;
 
     @NotNull

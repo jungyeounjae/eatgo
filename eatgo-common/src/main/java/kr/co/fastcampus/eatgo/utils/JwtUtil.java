@@ -19,7 +19,7 @@ public class JwtUtil {
     }
 
     public String createToken(long userId, String name) {
-        // jwt token 생
+        // jwt token 생성
         String token = Jwts.builder()
                 .claim("userId",userId) // claim : 実際に使うデータ、payloadに入っているデータ
                 .claim("name", name)

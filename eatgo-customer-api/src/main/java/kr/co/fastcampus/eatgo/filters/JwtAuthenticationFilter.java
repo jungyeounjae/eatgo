@@ -6,8 +6,10 @@ import kr.co.fastcampus.eatgo.utils.JwtUtil;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import sun.tools.jconsole.JConsole;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -16,6 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Security;
 
+/**
+ * BasicAuthenticationFilter은 http요청이 발생할 때마다 인증을 시도한다
+ * 이 요청은 헤더를 이용한 인증 방식이다!
+ */
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     private JwtUtil jwtUtil;
@@ -34,8 +40,10 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
 
         if (authentication != null) {
-            SecurityContextHolder.getContext().getAuthentication(); // SecurityContextHolder 에는 사용자 정보가 담겨져 있다.
+            SecurityContext context = SecurityContextHolder.getContext();
+            context.setAuthentication(authentication); // SecurityContextHolder 에는 사용자 정보가 담겨져 있다.
         }
+
         chain.doFilter(request, response);
     }
 
@@ -48,8 +56,11 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             return null;
         }
 
-        Claims claims = jwtUtil.getClaims(token.substring("Bearer ".length())); // Bearer auth 방
+        // jwt token 의 userID 와 name 을 취득한다.
+        Claims claims = jwtUtil.getClaims(token.substring("Bearer ".length())); // Bearer auth 방식
 
+        // authentication은 principal(아이디) credentials(비밀번호)를 리턴 받는다
+        // 여기서는 principal을 claims로서 넣고 있음.
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(claims, null);
 

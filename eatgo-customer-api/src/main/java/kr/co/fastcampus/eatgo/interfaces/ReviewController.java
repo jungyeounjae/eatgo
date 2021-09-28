@@ -1,7 +1,9 @@
 package kr.co.fastcampus.eatgo.interfaces;
 
+import io.jsonwebtoken.Claims;
 import kr.co.fastcampus.eatgo.application.ReviewService;
 import kr.co.fastcampus.eatgo.domain.Review;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,9 +22,18 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @PostMapping("/restaurants/{restaurantId}/reviews")
-    public ResponseEntity<?> create(@Valid @RequestBody Review resource,
+    public ResponseEntity<?> create(
+                                    Authentication authentication,
+                                    @Valid @RequestBody Review resource,
                                     @PathVariable("restaurantId") Long id ) throws URISyntaxException {
-        Review review = reviewService.addReview(id, resource) ;
+//        Claims claims = (Claims) authentication
+        Claims claims = (Claims) authentication.getPrincipal();
+
+        String name = "JUNG";
+        Integer score = resource.getScore();
+        String description = resource.getDescription();
+
+        Review review = reviewService.addReview(id, name, score, description) ;
 
         String url = "/restaurants/" +id + "/reviews/" + review.getId();
 

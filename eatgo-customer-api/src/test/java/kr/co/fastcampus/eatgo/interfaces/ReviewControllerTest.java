@@ -33,23 +33,21 @@ public class ReviewControllerTest {
 
     @Test
     public void createWithValidAttributes() throws Exception {
-
-        given(reviewService.addReview(eq(1L), any())).willReturn(
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwMDQsIm5hbWUiOiJKb2huIn0.scvKEe3F2LM4753PXepfRdHulj6eQVVubH2lYg-cMbg";
+        given(reviewService.addReview(1L, "JUNG",3,"good taste")).willReturn(
                 Review.builder()
                         .id(1004L)
-                        .name("JUNG")
-                        .score(3)
-                        .description("good taste")
                         .build()
         );
 
         mvc.perform(post("/restaurants/1/reviews")
+                .header("Authorization","Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"JUNG\",\"score\":3,\"description\":\"good taste\"}"))
+                .content("{\"score\":3,\"description\":\"good taste\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location","/restaurants/1/reviews/1004"));
 
-        verify(reviewService).addReview(eq(1L), any());
+        verify(reviewService).addReview(1L, "JUNG",3,"good taste");
     }
 
     @Test
@@ -59,7 +57,7 @@ public class ReviewControllerTest {
                 .content("{}"))
                 .andExpect(status().isBadRequest());
 
-        verify(reviewService, never()).addReview(eq(1L), any()); // never addReview는 한 번도 호출 되지 않는다.
+        verify(reviewService, never()).addReview(any(),any(),any(),any()); // never addReview는 한 번도 호출 되지 않는다.
 
 
     }
