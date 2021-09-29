@@ -3,9 +3,9 @@ package kr.co.fastcampus.eatgo.interfaces;
 import io.jsonwebtoken.Claims;
 import kr.co.fastcampus.eatgo.application.ReviewService;
 import kr.co.fastcampus.eatgo.domain.Review;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,10 +26,10 @@ public class ReviewController {
                                     Authentication authentication,
                                     @Valid @RequestBody Review resource,
                                     @PathVariable("restaurantId") Long id ) throws URISyntaxException {
-//        Claims claims = (Claims) authentication
+        // JwtAuthenticationFilter 클래스에서 SecurityContextHolder에 저장하였기 때문에 authentication을 이용해 사용자 정보를 취득
         Claims claims = (Claims) authentication.getPrincipal();
 
-        String name = "JUNG";
+        String name = claims.get("name", String.class);
         Integer score = resource.getScore();
         String description = resource.getDescription();
 

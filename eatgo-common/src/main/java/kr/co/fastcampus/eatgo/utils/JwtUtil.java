@@ -31,8 +31,8 @@ public class JwtUtil {
 
     public Claims getClaims(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(key)  //인코딩된 header 와 payload 를 합쳐 header 의 서명 알고리즘 정보를 가져와 암호화하여 생성한다
-                .parseClaimsJws(token)  //사인이 포함된 jwt
+                .setSigningKey(key)  // 인코딩된 header 와 payload 를 합쳐 header 의 서명 알고리즘 정보를 가져와 암호화하여 생성한다
+                .parseClaimsJws(token)  // JWT signature와 로컬의 signature가 일치하지 않으면 에러를 일으킨다.
                 .getBody();
 
         return claims;
