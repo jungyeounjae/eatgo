@@ -45,16 +45,4 @@ public class UserService {
 
         return userRepository.save(user);
     }
-
-    public User authenticate(String email, String password) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EmailNotExistedException(email));
-
-        // password : row password
-        // user.getPassword() : encoded password
-        if(!passwordEncoder.matches(password, user.getPassword())) {
-            throw new PasswordWrongException(email);
-        }
-        return user;
-    }
 }
