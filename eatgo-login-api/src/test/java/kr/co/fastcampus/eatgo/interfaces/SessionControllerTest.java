@@ -38,15 +38,15 @@ public class SessionControllerTest {
 
     @Test
     public void createWithNotExistedEmail() throws Exception {
-        given(userService.authenticate("x@gmail.com","test"))
+        given(userService.authenticate("duswp220@gmail.com","test"))
                 .willThrow(EmailNotExistedException.class);
 
         mvc.perform(post("/session")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"email\":\"x@gmail.com\",\"password\":\"test\"}"))
+                .content("{\"email\":\"duswp220@gmail.com\",\"password\":\"test\"}"))
                 .andExpect(status().isBadRequest());
 
-        verify(userService).authenticate(eq("x@gmail.com"), eq("test"));
+        verify(userService).authenticate(eq("duswp220@gmail.com"), eq("test"));
     }
 
     @Test

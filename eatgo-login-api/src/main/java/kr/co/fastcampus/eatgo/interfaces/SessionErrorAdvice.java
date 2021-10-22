@@ -16,13 +16,13 @@ public class SessionErrorAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(EmailNotExistedException.class)
     public String handleEmailNotExisted(RuntimeException rt) {
-        return rt.getMessage() + "のパスワードが間違ってません。";
+        return rt.getMessage();
     }
 
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(PasswordWrongException.class)
     public String handlePasswordWrong() {
-        return "{}";
+        return "パスワードが間違ってます";
     }
 }
