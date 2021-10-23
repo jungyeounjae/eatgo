@@ -1,6 +1,5 @@
 package kr.co.fastcampus.eatgo.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -32,8 +31,10 @@ public class User {
     @Setter
     private Long level;
 
-
     private String password;
+
+    @Setter
+    private Long restaurantId;
 
     public boolean isAdmin() {
         return level >= 3;
@@ -45,6 +46,18 @@ public class User {
 
     public void deactivate() {
         level = 0L;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.level = 50L;
+        this.restaurantId = restaurantId;
+    }
+
+    /*
+        레스토랑 주인인지 아닌지 확인
+     */
+    public boolean isRestaurantOwner() {
+        return level == 50L;
     }
 
     /*

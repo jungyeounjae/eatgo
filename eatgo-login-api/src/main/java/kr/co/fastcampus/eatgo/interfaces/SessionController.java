@@ -32,7 +32,11 @@ public class SessionController {
 
         User user = userService.authenticate(email, password);
 
-        String accessToken = jwtUtil.createToken(user.getId(), user.getName());
+        // 토큰에 넣을 정보
+        String accessToken = jwtUtil.createToken(
+                user.getId(),
+                user.getName(),
+                user.isRestaurantOwner() ? user.getRestaurantId() : null);
 
         SessionDto sessionResponseDto = SessionDto.builder()
                 .accessToken(accessToken)
