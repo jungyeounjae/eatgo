@@ -2,15 +2,18 @@ package kr.co.fastcampus.eatgo.interfaces;
 
 import java.net.URI;
 
+import io.jsonwebtoken.Claims;
 import kr.co.fastcampus.eatgo.application.ReservationService;
 import kr.co.fastcampus.eatgo.domain.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.net.URISyntaxException;
 
 @RestController
@@ -21,19 +24,23 @@ public class ReservationController {
 
     @PostMapping("/restaurants/{restaurantId}/reservations")
     public ResponseEntity<?> create(
+            Authentication authentication,
             @PathVariable Long restaurantId,
-            @RequestBody Reservation resource
+            @Valid @RequestBody Reservation resource
     ) throws URISyntaxException {
-        Long userId = 1L;
-        String name = "Tester";
+        // JwtAuthenticationFilter 클래스에서 SecurityContextHolder에 저장하였기 때문에 authentication을 이용해 사용자 정보를 취득
+        Claims claims = (Claims) authentication.getPrincipal();
+
+        String name = claims.get("name", String.class);
+        Long userId = claims.get("userId", Long.class);
         String date = resource.getDate();
         String time = resource.getTime();
         Integer partySize = resource.getPartySize();
 
-        reservationService.addReservation(restaurantId, userId, name,
+        Reservation reservation = reservationService.addReservation(restaurantId, userId, name,
                 date, time, partySize);
 
-        String url = "/restaurants/"+ restaurantId + "/reservations/1";
+        String url = "/restaurants/"+ restaurantId + "/reservations/" + reservation.getId();
         return ResponseEntity.created(new URI(url)).body("{}");
     }
 }
