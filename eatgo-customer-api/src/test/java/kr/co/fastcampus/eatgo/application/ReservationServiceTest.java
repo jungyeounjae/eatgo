@@ -39,7 +39,7 @@ public class ReservationServiceTest {
         Long restaurantId = 369L;
 
         // reservationRepository의 save함수가 호출되면 will의 값이 리턴 될 것이다.
-        // will은 동적인 값을 확
+        // will은 동적인 값을 확인
         given(reservationRepository.save(any()))
                 .will(invocation -> {
                     Reservation reservation = invocation.getArgument(0);

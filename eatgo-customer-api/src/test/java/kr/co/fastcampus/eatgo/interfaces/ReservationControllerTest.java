@@ -30,9 +30,6 @@ public class ReservationControllerTest {
     @MockBean
     private ReservationService reservationService;
 
-    @MockBean
-    private RegionService regionService;
-
     @Test
     public void create() throws Exception {
         String token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwMDQsIm5hbWUiOiJKb2huIn0.scvKEe3F2LM4753PXepfRdHulj6eQVVubH2lYg-cMbg";
