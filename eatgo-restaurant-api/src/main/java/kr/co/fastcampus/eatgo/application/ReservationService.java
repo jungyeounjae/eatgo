@@ -1,8 +1,7 @@
 package kr.co.fastcampus.eatgo.application;
 
-import kr.co.fastcampus.eatgo.domain.Region;
-import kr.co.fastcampus.eatgo.domain.RegionRepository;
 import kr.co.fastcampus.eatgo.domain.Reservation;
+import kr.co.fastcampus.eatgo.domain.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +10,14 @@ import java.util.List;
 @Service
 public class ReservationService {
 
-    private RegionRepository regionRepository;
+    private ReservationRepository reservationRepository;
 
     @Autowired
-    public ReservationService(RegionRepository regionRepository) {
-        this.regionRepository = regionRepository;
+    public ReservationService(ReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
     }
 
     public List<Reservation> getReservations(Long restaurantId) {
-        return null;
+        return reservationRepository.findAllByRestaurantId(restaurantId);
     }
 }

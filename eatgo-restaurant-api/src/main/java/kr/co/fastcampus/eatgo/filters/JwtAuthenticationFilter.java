@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
                                     FilterChain chain)
             throws IOException, ServletException {
 
-        //　hppt通信が行われると、このdoFilterInternal()がそれをキャッチして認証処理を実施する！
+        //　http通信が行われると、このdoFilterInternal()がそれをキャッチして認証処理を実施する！
         UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
 
         if (authentication != null) {

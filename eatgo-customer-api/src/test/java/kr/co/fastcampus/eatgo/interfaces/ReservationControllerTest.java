@@ -1,6 +1,5 @@
 package kr.co.fastcampus.eatgo.interfaces;
 
-import kr.co.fastcampus.eatgo.application.RegionService;
 import kr.co.fastcampus.eatgo.application.ReservationService;
 import kr.co.fastcampus.eatgo.domain.Reservation;
 import org.junit.Test;
@@ -16,8 +15,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -55,4 +54,14 @@ public class ReservationControllerTest {
         verify(reservationService).addReservation(eq(369L), eq(userId), eq(name),
                 eq(date), eq(time), eq(partySize));
     }
+
+    @Test
+    public void deletereservation() throws Exception {
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwMDQsIm5hbWUiOiJKb2huIn0.scvKEe3F2LM4753PXepfRdHulj6eQVVubH2lYg-cMbg";
+
+        mvc.perform(delete("/restaurants/369")
+                .header("Authorization","Bearer " + token))
+                .andExpect(status().isOk());
+    }
+
 }
