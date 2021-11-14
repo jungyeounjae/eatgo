@@ -3,6 +3,7 @@ package kr.co.fastcampus.eatgo.application;
 import kr.co.fastcampus.eatgo.domain.CategoryRepository;
 import kr.co.fastcampus.eatgo.domain.Reservation;
 import kr.co.fastcampus.eatgo.domain.ReservationRepository;
+import kr.co.fastcampus.eatgo.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,12 @@ public class ReservationService {
                 .build();
         
         return reservationRepository.save(reservation);
-        
+    }
+
+    public void deleteReservations(Long restaurantId, Long userId) {
+        reservationRepository.findAllByRestaurantIdAndUserId(restaurantId, userId)
+                .orElseThrow(() -> new ReservationNotExistedException(restaurantId, userId));
+
+        reservationRepository.deleteByUserId(userId);
     }
 }

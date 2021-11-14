@@ -42,16 +42,18 @@ public class ReservationController {
         return ResponseEntity.created(new URI(url)).body("{}");
     }
 
-    @DeleteMapping("/restaurants/{restaurantId}")
+    @DeleteMapping("/restaurants/{restaurantId}/reservations")
     public String update(
             Authentication authentication,
-            @PathVariable("userId") Long userId,
             @PathVariable("restaurantId") Long restaurantId
     ) {
         // 사용자 정보를 JwtAuthenticationFilter.SecurityContextHolder 에 저장하였기 때문에 authentication을 이용해 사용자 정보를 취득
         // 인증에 성공하면 사용자의 정보(authentication)는 securitycontext에 담기기 때문에 securitycontext를 사용해 사용자 정보 취득이 가능.
         Claims claims = (Claims) authentication.getPrincipal();
 
+        Long userId = claims.get("userId", Long.class);
+
+        reservationService.deleteReservations(userId, restaurantId);
         return "{}";
     }
 }

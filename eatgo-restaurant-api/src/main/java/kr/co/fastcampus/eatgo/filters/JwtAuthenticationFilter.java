@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
         if (authentication != null) {
             SecurityContext context = SecurityContextHolder.getContext();
-            context.setAuthentication(authentication); // SecurityContextHolder 에는 사용자 정보가 담겨져 있다.
+            context.setAuthentication(authentication); // 사용자 인증이 통과 하면 SecurityContextHolder 에 사용자 정보를 저장 한다.
         }
 
         chain.doFilter(request, response);
